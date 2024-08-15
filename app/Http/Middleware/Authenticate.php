@@ -14,4 +14,11 @@ class Authenticate extends Middleware
     {
         return $request->expectsJson() ? null : route('login');
     }
+
+    // override
+    protected function unauthenticated($request, array $guards)
+    {
+        echo "Has bug, ['status' => 401, 'message' => 'Unauthenticated.']";
+        return response()->json(['status' => 401, 'message' => 'Unauthenticated.'], 401);
+    }
 }
