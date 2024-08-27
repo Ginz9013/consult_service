@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Auth\AuthenticationException;
 
 class Authenticate extends Middleware
 {
@@ -18,7 +19,6 @@ class Authenticate extends Middleware
     // override
     protected function unauthenticated($request, array $guards)
     {
-        echo "Has bug, ['status' => 401, 'message' => 'Unauthenticated.']";
-        return response()->json(['status' => 401, 'message' => 'Unauthenticated.'], 401);
+        throw new AuthenticationException('Unauthenticated.', $guards);
     }
 }
