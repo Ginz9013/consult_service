@@ -66,4 +66,9 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
     // ============ JWT Methods ============
+
+    public function dailies() {
+
+        return $this->hasMany('App\Models\Daily');
+    }
 }
