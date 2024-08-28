@@ -20,10 +20,10 @@ return new class extends Migration
             $table->integer('fruit')->default(0);
             $table->integer('vegetable')->default(0);
             $table->integer('fat')->default(0);
-            $table->string('description')->nullable();
-            $table->string('img_url_1')->nullable();
-            $table->string('img_url_2')->nullable();
-            $table->string('img_url_3')->nullable();
+            $table->string('description', 1000)->nullable();
+            $table->string('img_url_1', 2083)->nullable();
+            $table->string('img_url_2', 2083)->nullable();
+            $table->string('img_url_3', 2083)->nullable();
             $table->timestamps();
         });
     }
