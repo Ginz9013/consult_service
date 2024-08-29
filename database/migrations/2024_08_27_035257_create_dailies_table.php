@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dailies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();;
-            $table->date('date');
+            $table->date('date')->unique();
             $table->decimal('weight', 4, 1)->nullable();
             $table->decimal('body_fat', 4, 3)->nullable();
             $table->string('note', 1000)->nullable();
