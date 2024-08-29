@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,4 +27,12 @@ Route::group([
     $router->get('/profile', [AuthController::class, 'profile']);
 
     $router->post('/logout', [AuthController::class, 'logout']);
+});
+
+// Record
+Route::group([
+    'prefix' => 'record',
+    'middleware' => ['api', 'auth']
+], function($router) {
+    $router->post('/create_daily_record', [RecordController::class, 'createDailyRecord']);
 });
