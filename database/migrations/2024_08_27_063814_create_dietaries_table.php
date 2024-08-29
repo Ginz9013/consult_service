@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('dietaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('daily_id')->constrained();
-            $table->dateTime('time');
+            $table->time('time');
             $table->integer('staple')->default(0);
             $table->integer('meat')->default(0);
             $table->integer('fruit')->default(0);
