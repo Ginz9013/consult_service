@@ -6,8 +6,9 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BaseController extends FormRequest
+class BaseRequest extends FormRequest
 {
+    // override
     public function failedValidation(Validator $validator)
     {
         $errors = $validator->errors();

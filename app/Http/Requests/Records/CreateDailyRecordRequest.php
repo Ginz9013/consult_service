@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Records;
 
-use App\Http\Requests\BaseController;
+use App\Http\Requests\BaseRequest;
 
-
-class CreateDailyRecordRequest extends BaseController
+class CreateDailyRecordRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
