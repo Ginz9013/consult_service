@@ -15,13 +15,15 @@ class Daily extends Model
         'date',
         'weight',
         'body_fat',
-        'note',
         'water_morning',
         'water_afternoon',
         'water_evening',
         'water_another',
         'coffee',
-        'tea'
+        'tea',
+        'sport',
+        'defecation',
+        'note'
     ];
 
     public function user() {
