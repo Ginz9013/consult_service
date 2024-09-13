@@ -13,17 +13,19 @@ return new class extends Migration
     {
         Schema::create('dailies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();;
+            $table->foreignId('user_id')->constrained();
             $table->date('date')->unique();
             $table->float('weight', 4, 1)->nullable();
-            $table->float('body_fat', 4, 3)->nullable();
-            $table->string('note', 1000)->nullable();
+            $table->float('body_fat', 3, 2)->nullable();
             $table->integer('water_morning')->nullable();
             $table->integer('water_afternoon')->nullable();
             $table->integer('water_evening')->nullable();
             $table->integer('water_another')->nullable();
             $table->integer('coffee')->nullable();
             $table->integer('tea')->nullable();
+            $table->string('sport', 1000)->nullable();
+            $table->string('defecation', 1000)->nullable();
+            $table->string('note', 1000)->nullable();
             $table->timestamps();
         });
     }
