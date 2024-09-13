@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('daily_id')->constrained();
             $table->time('time');
-            $table->integer('staple')->default(0);
-            $table->integer('meat')->default(0);
-            $table->integer('fruit')->default(0);
-            $table->integer('vegetable')->default(0);
-            $table->integer('fat')->default(0);
+            $table->float('staple', 3, 1)->default(0);
+            $table->float('meat', 3, 1)->default(0);
+            $table->float('fruit', 3, 1)->default(0);
+            $table->float('vegetable', 3, 1)->default(0);
+            $table->float('fat', 3, 1)->default(0);
             $table->string('description', 1000)->nullable();
             $table->string('img_url_1', 2083)->nullable();
             $table->string('img_url_2', 2083)->nullable();

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();;
             $table->date('date')->unique();
-            $table->decimal('weight', 4, 1)->nullable();
-            $table->decimal('body_fat', 4, 3)->nullable();
+            $table->float('weight', 4, 1)->nullable();
+            $table->float('body_fat', 4, 3)->nullable();
             $table->string('note', 1000)->nullable();
             $table->integer('water_morning')->nullable();
             $table->integer('water_afternoon')->nullable();
