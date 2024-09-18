@@ -4,7 +4,7 @@ namespace App\Http\Requests\Records;
 
 use App\Http\Requests\BaseRequest;
 
-class CreateDailyRecordRequest extends BaseRequest
+class UpdateDailyRecordRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +14,7 @@ class CreateDailyRecordRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'date' => 'bail|required|date_format:Y-m-d|unique:dailies,date',
+            'date' => 'bail|required|date_format:Y-m-d|exists:dailies,date',
             'weight' => 'bail|nullable|numeric|min:1',
             'body_fat' => 'bail|nullable|numeric|max:1',
             'water_morning' => 'bail|nullable|numeric|min:0',

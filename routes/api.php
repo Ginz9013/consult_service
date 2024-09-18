@@ -34,5 +34,10 @@ Route::group([
     'prefix' => 'record',
     'middleware' => ['api', 'auth']
 ], function($router) {
-    $router->post('/create_daily_record', [RecordController::class, 'createDailyRecord']);
+
+    $router->post('/daily', [RecordController::class, 'createDailyRecord']);
+
+    $router->patch('/daily/{date}', [RecordController::class, 'updateDailyRecord']);
+
+    $router->get('/daily', [RecordController::class, 'SearchDailyRecords']);
 });
