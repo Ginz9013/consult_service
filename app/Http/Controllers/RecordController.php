@@ -72,17 +72,6 @@ class RecordController extends Controller
         // Dailies
         $dailies = $user->dailies()->whereBetween('date', [$start_date, $end_date])->get();
 
-        if($dailies->isEmpty()) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Daily record not found',
-            ], 404);
-        }
-
         return new DailyRecordSearchCellection($dailies);
-        // return response()->json([
-        //     'status' => 200,
-        //     'data' => $dailies,
-        // ]);
     }
 }
