@@ -42,7 +42,7 @@ class RecordController extends Controller
         $user = auth()->user();
         $dailyRecord = $user->dailies()->where('date', $date)->first();
 
-        if($dailyRecord->isEmpty()) {
+        if(is_null($dailyRecord)) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Daily record not found',

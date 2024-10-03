@@ -15,6 +15,8 @@ class Daily extends Model
         'date',
         'weight',
         'body_fat',
+        'awake',
+        'sleep',
         'water_morning',
         'water_afternoon',
         'water_evening',

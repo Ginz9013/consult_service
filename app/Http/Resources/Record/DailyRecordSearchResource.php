@@ -13,6 +13,8 @@ class DailyRecordSearchResource extends JsonResource
             'date' => $this->date,
             'weight' => $this->weight,
             'body_fat' => $this->body_fat,
+            "awake" => $this->awake,
+            "sleep" => $this->sleep,
             'water_morning' => $this->water_morning,
             'water_afternoon' => $this->water_afternoon,
             'water_evening' => $this->water_evening,
