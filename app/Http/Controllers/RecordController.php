@@ -6,6 +6,7 @@ use App\Http\Requests\Records\CreateDailyRecordRequest;
 use App\Http\Requests\Records\UpdateDailyRecordRequest;
 use App\Http\Requests\Records\SearchDailyRecordRequest;
 use App\Models\Daily;
+use App\Http\Resources\Record\DailyRecordSearchCellection;
 // use Illuminate\Http\Request;
 
 class RecordController extends Controller
@@ -78,9 +79,10 @@ class RecordController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'status' => 200,
-            'data' => $dailies,
-        ]);
+        return new DailyRecordSearchCellection($dailies);
+        // return response()->json([
+        //     'status' => 200,
+        //     'data' => $dailies,
+        // ]);
     }
 }
