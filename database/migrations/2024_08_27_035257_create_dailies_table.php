@@ -17,8 +17,8 @@ return new class extends Migration
             $table->date('date')->unique();
             $table->float('weight', 4, 1)->nullable();
             $table->float('body_fat', 3, 2)->nullable();
-            $table->time('awake');
-            $table->time('sleep');
+            $table->time('awake')->nullable();
+            $table->time('sleep')->nullable();
             $table->integer('water_morning')->nullable();
             $table->integer('water_afternoon')->nullable();
             $table->integer('water_evening')->nullable();
