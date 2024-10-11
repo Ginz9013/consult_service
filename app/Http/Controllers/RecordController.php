@@ -5,24 +5,33 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Records\CreateDailyRecordRequest;
 use App\Http\Requests\Records\UpdateDailyRecordRequest;
 use App\Http\Requests\Records\SearchDailyRecordRequest;
-use App\Models\Daily;
 use App\Http\Resources\Record\DailyRecordSearchCellection;
+use App\Service\RecordService;
+
 // use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
+    protected $recordService;
+
+    public function __construct(RecordService $recordService) {
+        $this->recordService = $recordService;
+    }
+
     // Create Daily Record
     public function createDailyRecord(CreateDailyRecordRequest $request) {
 
         // Request Data
         $validatedData = $request->validated();
         
-        // Create Daily
-        $newDaily = new Daily($validatedData);
+        $newDaily = $this->recordService->createDailyRecord($validatedData);
 
-        // Save Daily to User
-        $user = auth()->user();
-        $user->dailies()->save($newDaily);
+        if(is_null($newDaily)) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Create failed.'
+            ]);
+        }
 
         return response()->json([
             'status' => 200,
@@ -39,18 +48,14 @@ class RecordController extends Controller
         // Request Data
         $validatedData = $request->validated();
 
-        $user = auth()->user();
-        $dailyRecord = $user->dailies()->where('date', $date)->first();
+        $result = $this->recordService->updateDailyRecord($validatedData, $date);
 
-        if(is_null($dailyRecord)) {
+        if(!$result) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Daily record not found',
             ], 404);
         }
-
-        // Update Daily Record
-        $dailyRecord->update($validatedData);
 
         return response()->json([
             'status' => 200,
@@ -63,14 +68,12 @@ class RecordController extends Controller
         
         // Request Query String
         $params = $request->validated();
+        
         $start_date = $params['start_date'];
         $end_date = $params['end_date'];
 
-        // User
-        $user = auth()->user();
-
         // Dailies
-        $dailies = $user->dailies()->whereBetween('date', [$start_date, $end_date])->get();
+        $dailies = $this->recordService->searchDailyRecord($start_date, $end_date);
 
         return new DailyRecordSearchCellection($dailies);
     }
