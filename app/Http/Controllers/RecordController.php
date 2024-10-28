@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Records\CreateDailyRecordRequest;
 use App\Http\Requests\Records\UpdateDailyRecordRequest;
 use App\Http\Requests\Records\SearchDailyRecordRequest;
+use App\Http\Requests\Records\CreateDietaryRecordRequest;
 use App\Http\Resources\Record\DailyRecordSearchCellection;
 use App\Service\RecordService;
 
@@ -76,5 +77,15 @@ class RecordController extends Controller
         $dailies = $this->recordService->searchDailyRecord($start_date, $end_date);
 
         return new DailyRecordSearchCellection($dailies);
+    }
+
+    // Create Dietary Record
+    public function CreateDietaryRecord(CreateDietaryRecordRequest $request) {
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Create successfully!',
+            'data' => $this->recordService->createDietaryRecord($request)
+        ]);
     }
 }

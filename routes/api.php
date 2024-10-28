@@ -40,4 +40,6 @@ Route::group([
     $router->patch('/daily/{date}', [RecordController::class, 'updateDailyRecord']);
 
     $router->get('/daily', [RecordController::class, 'SearchDailyRecords']);
+
+    $router->post('/dietary', [RecordController::class, 'createDietaryRecord'])->name('dietary.create');
 });

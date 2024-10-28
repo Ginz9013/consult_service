@@ -17,7 +17,10 @@ class Dietary extends Model
         'fruit',
         'vegetable',
         'fat',
-        'description'
+        'description',
+        'img_url_1',
+        'img_url_2',
+        'img_url_3'
     ];
 
     public function daily() {
