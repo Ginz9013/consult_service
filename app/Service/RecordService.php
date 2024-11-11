@@ -64,8 +64,8 @@ class RecordService
     $user = auth()->user();
     $user_id = $user->id;
     $user_name = $user->name;
-    $today = Carbon::now()->format('Y-m-d');
-    $file_path = 'user/' . $user_id . '_' . $user_name . '/' . $today;
+    $date = Carbon::createFromFormat('Y-m-d H:i', data_get($dietary_data, 'date_time'))->toDateString();
+    $file_path = 'user/' . $user_id . '_' . $user_name . '/' . $date;
 
     $imageKeys = ['image1' => 'img_url_1', 'image2' => 'img_url_2', 'image3' => 'img_url_3'];
 
@@ -82,10 +82,14 @@ class RecordService
         }
     }
 
+    // 刪除 date_time 並且加入 time 欄位
+    $dietary_data['time'] = Carbon::createFromFormat('Y-m-d H:i', data_get($dietary_data, 'date_time'))->format('H:i');
+    unset($dietary_data['date_time']);
+
     $new_dietary = new Dietary($dietary_data);
 
-    DB::transaction(function() use ($user, $new_dietary, $today) {
-      $daily = $user->dailies()->firstOrCreate(['date' => $today]);
+    DB::transaction(function() use ($user, $new_dietary, $date) {
+      $daily = $user->dailies()->firstOrCreate(['date' => $date]);
       $daily->dietaries()->save($new_dietary);
     });
 

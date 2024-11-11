@@ -9,7 +9,7 @@ class CreateDietaryRecordRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'time' => 'bail|required|date_format:H:i',
+            'date_time' => 'bail|required|date_format:Y-m-d H:i',
             'staple' => 'bail|nullable|numeric|min:0',
             'meat' => 'bail|nullable|numeric|min:0',
             'fruit' => 'bail|nullable|numeric|min:0',
