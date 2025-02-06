@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
+use App\Service\AuthService;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
     // 從 Route Group 中統一套用的 api Middleware 把 login / register 方法排除
-    public function __construct() {
-        
+    public function __construct(AuthService $authService) {
+
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->authService = $authService;
     }
 
     // Register
@@ -27,10 +30,7 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         };
 
-        $user = User::create(array_merge(
-            $validator->validated(),
-            ['password' => bcrypt($request->password)]
-        ));
+        $user = $this->authService->registerUser($validator->validated());
 
         return response()->json([
             'status' => 201,
