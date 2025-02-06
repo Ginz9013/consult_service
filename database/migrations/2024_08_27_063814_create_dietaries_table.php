@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('dietaries', function (Blueprint $table) {
+        Schema::create('diets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('daily_id')->constrained();
             $table->time('time');
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('img_url_2', 2083)->nullable();
             $table->string('img_url_3', 2083)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('dietaries');
+        Schema::dropIfExists('diets');
     }
 };
