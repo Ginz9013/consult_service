@@ -20,7 +20,7 @@ return new class extends Migration
             $table->float('weight', 4, 1)->nullable();
             $table->float('body_fat', 3, 2)->nullable();
             $table->string('avatar_pic')->nullable();
-            $table->dateTime('next_consultation');
+            $table->dateTime('next_consultation')->nullable();
             $table->boolean('active')->default(1);
             $table->rememberToken();
             $table->timestamps();
