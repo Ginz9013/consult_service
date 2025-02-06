@@ -6,6 +6,7 @@ use App\Http\Requests\Records\CreateDailyRecordRequest;
 use App\Http\Requests\Records\UpdateDailyRecordRequest;
 use App\Http\Requests\Records\SearchDailyRecordRequest;
 use App\Http\Requests\Records\CreateDietaryRecordRequest;
+use App\Http\Requests\Records\UpdateDietaryRecordRequest;
 use App\Http\Resources\Record\DailyRecordSearchCellection;
 use App\Service\RecordService;
 
@@ -87,5 +88,10 @@ class RecordController extends Controller
             'message' => 'Create successfully!',
             'data' => $this->recordService->createDietaryRecord($request)
         ]);
+    }
+
+    // Update Dietary Record
+    public function updateDietaryRecord(UpdateDietaryRecordRequest $request) {
+        return $this->recordService->updateDietaryRecord($request);
     }
 }

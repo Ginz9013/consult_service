@@ -95,4 +95,22 @@ class RecordService
 
     return $new_dietary;
   }
+
+  public function updateDietaryRecord($request) {
+    $date = Carbon::createFromFormat('Y-m-d H:i', $request->date_time);
+
+    // Get User
+    $user = auth()->user();
+
+    // Get Exist Record
+    $dietaryRecord = $user->dailies()->where('date', $date->format('Y-m-d'))->first()
+      ?->dietaries()->where('time', $date->format('H:i'))->first();
+
+    if(is_null($dietaryRecord)) {
+      echo 'no';
+      return false;
+    }
+
+    return $dietaryRecord->toArray();
+  }
 }
