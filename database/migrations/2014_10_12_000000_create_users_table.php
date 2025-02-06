@@ -21,7 +21,7 @@ return new class extends Migration
             $table->float('body_fat', 3, 2)->nullable();
             $table->string('avatar_pic')->nullable();
             $table->dateTime('next_consultation');
-            $table->boolean('active')->default(0);
+            $table->boolean('active')->default(1);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
