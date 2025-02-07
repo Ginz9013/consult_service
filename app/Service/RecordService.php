@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Models\Daily;
-use App\Models\Dietary;
+use App\Models\Diet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -74,7 +74,7 @@ class RecordService
         if ($request->hasFile($key)) {
             $file = $request->file($key);
 
-            $path = $file->store($file_path , 's3'); 
+            $path = $file->store($file_path , 's3');
 
             $url = Storage::url($path);
 
@@ -86,14 +86,14 @@ class RecordService
     $dietary_data['time'] = Carbon::createFromFormat('Y-m-d H:i', data_get($dietary_data, 'date_time'))->format('H:i');
     unset($dietary_data['date_time']);
 
-    $new_dietary = new Dietary($dietary_data);
+    $new_diet = new Diet($dietary_data);
 
-    DB::transaction(function() use ($user, $new_dietary, $date) {
+    DB::transaction(function() use ($user, $new_diet, $date) {
       $daily = $user->dailies()->firstOrCreate(['date' => $date]);
-      $daily->dietaries()->save($new_dietary);
+      $daily->diet()->save($new_diet);
     });
 
-    return $new_dietary;
+    return $new_diet;
   }
 
   public function updateDietaryRecord($request) {

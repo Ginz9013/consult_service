@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Daily;
 
-class Dietary extends Model
+class Diet extends Model
 {
     use HasFactory;
 

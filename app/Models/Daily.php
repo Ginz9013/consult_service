@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
-use App\Models\Dietary;
+use App\Models\Diet;
 
 class Daily extends Model
 {
@@ -33,8 +33,8 @@ class Daily extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function dietaries() {
+    public function diet() {
         
-        return $this->hasMany(Dietary::class);
+        return $this->hasMany(Diet::class);
     }
 }
