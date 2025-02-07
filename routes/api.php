@@ -20,13 +20,13 @@ Route::group([
     'middleware' => 'api'
 ], function($router) {
 
-    $router->post('/register', [AuthController::class, 'register']);
+    $router->post('/register', [AuthController::class, 'register'])->name('auth.register');
 
-    $router->post('/login', [AuthController::class, 'login'])->name('login');
+    $router->post('/login', [AuthController::class, 'login'])->name('auth.login');
 
-    $router->get('/profile', [AuthController::class, 'profile']);
+    $router->get('/profile', [AuthController::class, 'profile'])->name('auth.profile');
 
-    $router->post('/logout', [AuthController::class, 'logout']);
+    $router->post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 });
 
 // Record
