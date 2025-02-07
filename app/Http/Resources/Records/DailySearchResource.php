@@ -24,6 +24,7 @@ class DailySearchResource extends JsonResource
             'sport' => $this->sport,
             'defecation' => $this->defecation,
             'note' => $this->note,
+            'diet' => DietSearchResource::collection($this->diets),
         ];
     }
 }

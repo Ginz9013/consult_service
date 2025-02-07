@@ -11,9 +11,9 @@ class DailySearchCellection extends ResourceCollection
     {
         return [
             'status' => 200,
-            'data' => DailySearchResource::collection(
-                $this->collection
-            ),
+            'data' => $this->collection->isNotEmpty()
+                ? new DailySearchResource($this->collection->first())
+                : null,
         ];
     }
 }

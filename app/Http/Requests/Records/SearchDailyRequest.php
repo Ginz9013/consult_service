@@ -14,8 +14,12 @@ class SearchDailyRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'start_date' => 'bail|required|date|date_format:Y-m-d|before_or_equal:end_date',
-            'end_date' => 'bail|required|date|date_format:Y-m-d|after_or_equal:start_date'
+            'date' => 'bail|required|date_format:Y-m-d',
         ];
+    }
+
+    public function validationData(): array
+    {
+        return array_merge($this->all(), ['date' => $this->route('date')]);
     }
 }

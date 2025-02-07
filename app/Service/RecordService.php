@@ -50,12 +50,16 @@ class RecordService
     return $dailyRecord->update($request);
   }
 
-  public function searchDaily(string $start_date, string $end_date) {
+  public function searchDaily(string $date) {
     // User
     $user = auth()->user();
 
     // Dailies
-    return $user->dailies()->whereBetween('date', [$start_date, $end_date])->get();
+    return $user
+      ->dailies()
+      ->where('date', $date)
+      ->with('diets')
+      ->get();
   }
 
   public function createDiet(CreateDietRequest $request) {
@@ -91,7 +95,7 @@ class RecordService
 
     DB::transaction(function() use ($user, $new_diet, $date) {
       $daily = $user->dailies()->firstOrCreate(['date' => $date]);
-      $daily->diet()->save($new_diet);
+      $daily->diets()->save($new_diet);
     });
 
     return $new_diet;

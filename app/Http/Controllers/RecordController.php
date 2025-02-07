@@ -64,16 +64,11 @@ class RecordController extends Controller
     }
 
     // Search Daily Record
-    public function searchDaily(SearchDailyRequest $request) {
-        
-        // Request Query String
-        $params = $request->validated();
-        
-        $start_date = $params['start_date'];
-        $end_date = $params['end_date'];
+    public function searchDaily(SearchDailyRequest $date) {
+        $formatted_date = data_get($date->validated(), 'date');
 
         // Dailies
-        $dailies = $this->recordService->searchDaily($start_date, $end_date);
+        $dailies = $this->recordService->searchDaily($formatted_date);
 
         return new DailySearchCellection($dailies);
     }

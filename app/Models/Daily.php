@@ -33,7 +33,7 @@ class Daily extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function diet() {
+    public function diets() {
         
         return $this->hasMany(Diet::class);
     }

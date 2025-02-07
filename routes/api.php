@@ -39,7 +39,7 @@ Route::group([
 
     $router->patch('/daily/{date}', [RecordController::class, 'updateDaily'])->name('daily.update');
 
-    $router->get('/daily', [RecordController::class, 'searchDaily'])->name('daily.search');
+    $router->get('/daily/{date}', [RecordController::class, 'searchDaily'])->name('daily.search');
 
     $router->post('/diet', [RecordController::class, 'createDiet'])->name('diet.create');
 
