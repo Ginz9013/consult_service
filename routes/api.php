@@ -35,13 +35,13 @@ Route::group([
     'middleware' => ['api', 'auth']
 ], function($router) {
 
-    $router->post('/daily', [RecordController::class, 'createDailyRecord']);
+    $router->post('/daily', [RecordController::class, 'createDaily'])->name('daily.create');
 
-    $router->patch('/daily/{date}', [RecordController::class, 'updateDailyRecord']);
+    $router->patch('/daily/{date}', [RecordController::class, 'updateDaily'])->name('daily.update');
 
-    $router->get('/daily', [RecordController::class, 'SearchDailyRecords']);
+    $router->get('/daily', [RecordController::class, 'searchDaily'])->name('daily.search');
 
-    $router->post('/diet', [RecordController::class, 'createDietaryRecord'])->name('dietary.create');
+    $router->post('/diet', [RecordController::class, 'createDiet'])->name('diet.create');
 
-    $router->patch('/diet', [RecordController::class, 'updateDietaryRecord'])->name('dietary.update');
+    $router->patch('/diet', [RecordController::class, 'updateDiet'])->name('diet.update');
 });

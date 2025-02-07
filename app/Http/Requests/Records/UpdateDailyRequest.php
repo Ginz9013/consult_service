@@ -4,7 +4,7 @@ namespace App\Http\Requests\Records;
 
 use App\Http\Requests\BaseRequest;
 
-class UpdateDailyRecordRequest extends BaseRequest
+class UpdateDailyRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.

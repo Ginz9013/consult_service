@@ -7,13 +7,14 @@ use App\Models\Diet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\Records\CreateDietaryRecordRequest;
+use App\Http\Requests\Records\CreateDietRequest;
+use App\Http\Requests\Records\UpdateDietRequest;
 
 use Illuminate\Support\Facades\Log;
 
 class RecordService
 {
-  public function createDailyRecord(array $request) {
+  public function createDaily(array $request) {
     // Create Daily
     $newDaily = new Daily($request);
 
@@ -35,7 +36,7 @@ class RecordService
     }
   }
 
-  public function updateDailyRecord(array $request, string $date): bool {
+  public function updateDaily(array $request, string $date): bool {
     
     // Get User
     $user = auth()->user();
@@ -49,7 +50,7 @@ class RecordService
     return $dailyRecord->update($request);
   }
 
-  public function searchDailyRecord(string $start_date, string $end_date) {
+  public function searchDaily(string $start_date, string $end_date) {
     // User
     $user = auth()->user();
 
@@ -57,7 +58,7 @@ class RecordService
     return $user->dailies()->whereBetween('date', [$start_date, $end_date])->get();
   }
 
-  public function createDietaryRecord(CreateDietaryRecordRequest $request) {
+  public function createDiet(CreateDietRequest $request) {
 
     $dietary_data = $request->validated();
 
@@ -96,7 +97,7 @@ class RecordService
     return $new_diet;
   }
 
-  public function updateDietaryRecord($request) {
+  public function updateDiet(UpdateDietRequest $request) {
     $date = Carbon::createFromFormat('Y-m-d H:i', $request->date_time);
 
     // Get User

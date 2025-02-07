@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Resources\Record;
+namespace App\Http\Resources\Records;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class DailyRecordSearchCellection extends ResourceCollection
+class DailySearchCellection extends ResourceCollection
 {
     public function toArray(Request $request): array
     {
         return [
             'status' => 200,
-            'data' => DailyRecordSearchResource::collection(
+            'data' => DailySearchResource::collection(
                 $this->collection
             ),
         ];

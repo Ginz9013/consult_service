@@ -4,7 +4,7 @@ namespace App\Http\Requests\Records;
 
 use App\Http\Requests\BaseRequest;
 
-class UpdateDietaryRecordRequest extends BaseRequest
+class UpdateDietRequest extends BaseRequest
 {
     public function rules(): array
     {

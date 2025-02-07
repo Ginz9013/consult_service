@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Records\CreateDailyRecordRequest;
-use App\Http\Requests\Records\UpdateDailyRecordRequest;
-use App\Http\Requests\Records\SearchDailyRecordRequest;
-use App\Http\Requests\Records\CreateDietaryRecordRequest;
-use App\Http\Requests\Records\UpdateDietaryRecordRequest;
-use App\Http\Resources\Record\DailyRecordSearchCellection;
+use App\Http\Requests\Records\CreateDailyRequest;
+use App\Http\Requests\Records\UpdateDailyRequest;
+use App\Http\Requests\Records\SearchDailyRequest;
+use App\Http\Requests\Records\CreateDietRequest;
+use App\Http\Requests\Records\UpdateDietRequest;
+use App\Http\Resources\Records\DailySearchCellection;
 use App\Service\RecordService;
-
-// use Illuminate\Http\Request;
 
 class RecordController extends Controller
 {
@@ -21,12 +19,12 @@ class RecordController extends Controller
     }
 
     // Create Daily Record
-    public function createDailyRecord(CreateDailyRecordRequest $request) {
+    public function createDaily(CreateDailyRequest $request) {
 
         // Request Data
         $validatedData = $request->validated();
         
-        $newDaily = $this->recordService->createDailyRecord($validatedData);
+        $newDaily = $this->recordService->createDaily($validatedData);
 
         if(is_null($newDaily)) {
             return response()->json([
@@ -45,12 +43,12 @@ class RecordController extends Controller
     }
 
     // Update Daily Record
-    public function updateDailyRecord(UpdateDailyRecordRequest $request, $date) {
+    public function updateDaily(UpdateDailyRequest $request, $date) {
 
         // Request Data
         $validatedData = $request->validated();
 
-        $result = $this->recordService->updateDailyRecord($validatedData, $date);
+        $result = $this->recordService->updateDaily($validatedData, $date);
 
         if(!$result) {
             return response()->json([
@@ -66,7 +64,7 @@ class RecordController extends Controller
     }
 
     // Search Daily Record
-    public function SearchDailyRecords (SearchDailyRecordRequest $request) {
+    public function searchDaily(SearchDailyRequest $request) {
         
         // Request Query String
         $params = $request->validated();
@@ -75,23 +73,23 @@ class RecordController extends Controller
         $end_date = $params['end_date'];
 
         // Dailies
-        $dailies = $this->recordService->searchDailyRecord($start_date, $end_date);
+        $dailies = $this->recordService->searchDaily($start_date, $end_date);
 
-        return new DailyRecordSearchCellection($dailies);
+        return new DailySearchCellection($dailies);
     }
 
     // Create Dietary Record
-    public function CreateDietaryRecord(CreateDietaryRecordRequest $request) {
+    public function createDiet(CreateDietRequest $request) {
 
         return response()->json([
             'status' => 200,
             'message' => 'Create successfully!',
-            'data' => $this->recordService->createDietaryRecord($request)
+            'data' => $this->recordService->createDiet($request)
         ]);
     }
 
     // Update Dietary Record
-    public function updateDietaryRecord(UpdateDietaryRecordRequest $request) {
-        return $this->recordService->updateDietaryRecord($request);
+    public function updateDiet(UpdateDietRequest $request) {
+        return $this->recordService->updateDiet($request);
     }
 }
