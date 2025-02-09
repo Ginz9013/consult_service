@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Service\AuthService;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Resources\Auth\UserLoginResource;
 
 class AuthController extends Controller
 {
@@ -40,18 +42,9 @@ class AuthController extends Controller
     }
 
     // Login
-    public function login(Request $request) {
-        
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|string|email',
-            'password' => 'required|string|min:6'
-        ]);
+    public function login(LoginRequest $request) {
 
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 401);
-        };
-
-        $token = auth()->attempt($validator->validated());
+        $token = $this->authService->login($request->validated());
 
         if(!$token) {
             return response()->json([
@@ -60,17 +53,13 @@ class AuthController extends Controller
             ]);
         };
 
-        return $this->createNewToken($token);
-    }
-
-    private function createNewToken($token) {
         return response()->json([
             'status' => 200,
             'data' => [
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60,
-                'user' => auth()->user()
+                'user' => new UserLoginResource(auth()->user())
             ]
         ]);
     }

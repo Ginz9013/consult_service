@@ -14,4 +14,10 @@ class AuthService
 
         return $user;
     }
+
+    public function login(array $credentials) {
+        $token = auth()->attempt($credentials);
+
+        return $token;
+    }
 }
