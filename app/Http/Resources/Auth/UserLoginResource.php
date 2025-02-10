@@ -14,7 +14,7 @@ class UserLoginResource extends JsonResource
             'email' => $this->email,
             'weight' => $this->weight,
             'bodyFat' => $this->body_fat,
-            "avartarImg" => $this->avatar_pic,
+            "avatarImg" => $this->avatar_pic,
             "nextConsultation" => $this->next_consultation,
         ];
     }
