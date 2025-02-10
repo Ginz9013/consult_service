@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Service\AuthService;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\Auth\UserLoginResource;
+use App\Http\Response\ApiResponse;
 
 class AuthController extends Controller
 {
@@ -53,15 +54,16 @@ class AuthController extends Controller
             ]);
         };
 
-        return response()->json([
-            'status' => 200,
-            'data' => [
+        return (new ApiResponse(
+            200,
+            "Login Successfully!",
+            [
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60,
                 'user' => new UserLoginResource(auth()->user())
             ]
-        ]);
+            ))->toJson();
     }
 
     // Profile
