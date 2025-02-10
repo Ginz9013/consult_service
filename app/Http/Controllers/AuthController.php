@@ -35,11 +35,11 @@ class AuthController extends Controller
 
         $user = $this->authService->registerUser($validator->validated());
 
-        return response()->json([
-            'status' => 201,
-            'message' => 'User successfully registered.',
-            'user' => $user
-        ]);
+        return (new ApiResponse(
+            201,
+            'User successfully registered.',
+            ['user' => $user]
+        ))->toJson();
     }
 
     // Login
@@ -63,7 +63,7 @@ class AuthController extends Controller
                 'expires_in' => auth()->factory()->getTTL() * 60,
                 'user' => new UserLoginResource(auth()->user())
             ]
-            ))->toJson();
+        ))->toJson();
     }
 
     // Profile
