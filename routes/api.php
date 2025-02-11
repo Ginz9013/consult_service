@@ -27,7 +27,7 @@ Route::group([
 
     $router->post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
-    $router->post('/profile/name', [UserController::class, 'updateName'])->name('user.name.update');
+    $router->post('/profile/nickname', [UserController::class, 'updateNickname'])->name('user.nickname.update');
 
     $router->post('/profile/password', [UserController::class, 'updatePassword'])->name('user.password.update');
 

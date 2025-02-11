@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\RegisterUserRequest;
 use App\Http\Requests\User\LoginUserRequest;
-use App\Http\Requests\User\UpdateNameRequest;
+use App\Http\Requests\User\UpdateNicknameRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
 use App\Http\Requests\User\UpdateAvatarPictureRequest;
 use App\Service\UserService;
@@ -74,10 +74,10 @@ class UserController extends Controller
         return (new ApiResponse(200, '登出成功'))->toJson();
     }
 
-    // Update Profile Name
-    public function updateName(UpdateNameRequest $request) {
+    // Update Profile Nickname
+    public function updateNickname(UpdateNicknameRequest $request) {
 
-        $updated = $this->userService->updateProfileName($request->validated());
+        $updated = $this->userService->updateProfileNickname($request->validated());
 
         return $updated
             ? (new ApiResponse(200, '更新成功'))->toJson()
@@ -96,7 +96,7 @@ class UserController extends Controller
 
     // Update Profile Avatar Picture
     public function updateAvatarPicture(UpdateAvatarPictureRequest $request) {
-        
+
         $url = $this->userService->updateProfileAvatar($request->file('avatar_pic'));
 
         return $url

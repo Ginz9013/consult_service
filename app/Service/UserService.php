@@ -25,12 +25,12 @@ class UserService
         return $token;
     }
 
-    // Update Profile Name
-    public function updateProfileName(array $params) {
+    // Update Profile Nickname
+    public function updateProfileNickname(array $params) {
         
         $user = auth()->user();
         $updated = $user->update([
-            'name' => data_get($params, 'name'),
+            'nickname' => data_get($params, 'nickname'),
         ]);
         
         return $updated ? true : false;

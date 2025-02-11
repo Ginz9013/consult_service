@@ -4,12 +4,12 @@ namespace App\Http\Requests\User;
 
 use App\Http\Requests\BaseRequest;
 
-class UpdateNameRequest extends BaseRequest
+class UpdateNicknameRequest extends BaseRequest
 {
     public function rules(): array
     {
         return [
-            'name' => 'bail|required|string',
+            'nickname' => 'bail|required|string',
         ];
     }
 }
