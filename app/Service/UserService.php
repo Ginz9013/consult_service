@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Models\User;
 
-class AuthService
+class UserService
 {
     // Register
     public function registerUser(array $params) {

@@ -1,36 +1,35 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\RecordController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
 // Check server run
-Route::get('connect', function(Request $request) {
+Route::get('connect', function() {
     return response()->json([
         'status' => 200,
         'message' => 'Is connect!'
     ]);
 });
 
-// Auth
+// User
 Route::group([
-    'prefix' => 'auth',
+    'prefix' => 'user',
     'middleware' => 'api'
 ], function($router) {
 
-    $router->post('/register', [AuthController::class, 'register'])->name('auth.register');
+    $router->post('/register', [UserController::class, 'register'])->name('user.register');
 
-    $router->post('/login', [AuthController::class, 'login'])->name('auth.login');
+    $router->post('/login', [UserController::class, 'login'])->name('user.login');
 
-    $router->get('/profile', [AuthController::class, 'profile'])->name('auth.profile');
+    $router->get('/profile', [UserController::class, 'profile'])->name('user.profile');
 
-    $router->post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    $router->post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
-    $router->post('/profile/name', [AuthController::class, 'updateName'])->name('auth.name.update');
+    $router->post('/profile/name', [UserController::class, 'updateName'])->name('user.name.update');
 
-    $router->post('/profile/password', [AuthController::class, 'updatePassword'])->name('auth.password.update');
+    $router->post('/profile/password', [UserController::class, 'updatePassword'])->name('user.password.update');
 });
 
 // Record

@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\RegisterUserRequest;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\Auth\UpdateNameRequest;
-use App\Http\Requests\Auth\UpdatePasswordRequest;
-use App\Service\AuthService;
+
+use App\Http\Requests\User\RegisterUserRequest;
+use App\Http\Requests\User\LoginUserRequest;
+use App\Http\Requests\User\UpdateNameRequest;
+use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Service\UserService;
 use App\Http\Resources\Auth\UserLoginResource;
 use App\Http\Response\ApiResponse;
 
-class AuthController extends Controller
+class UserController extends Controller
 {
-    protected $authService;
+    protected $userService;
 
     // 從 Route Group 中統一套用的 api Middleware 把 login / register 方法排除
-    public function __construct(AuthService $authService) {
+    public function __construct(UserService $userService) {
 
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
-        $this->authService = $authService;
+        $this->userService = $userService;
     }
 
     // Register
     public function register(RegisterUserRequest $request) {
 
-        $user = $this->authService->registerUser($request->validated());
+        $user = $this->userService->registerUser($request->validated());
 
         return (new ApiResponse(
             201,
@@ -34,9 +35,9 @@ class AuthController extends Controller
     }
 
     // Login
-    public function login(LoginRequest $request) {
+    public function login(LoginUserRequest $request) {
 
-        $token = $this->authService->login($request->validated());
+        $token = $this->userService->login($request->validated());
 
         if(!$token) {
             return (new ApiResponse(401, 'Unauthorized'))->toJson();
@@ -75,7 +76,7 @@ class AuthController extends Controller
     // Update Profile Name
     public function updateName(UpdateNameRequest $request) {
 
-        $updated = $this->authService->updateProfileName($request->validated());
+        $updated = $this->userService->updateProfileName($request->validated());
 
         return $updated
             ? (new ApiResponse(200, '更新成功'))->toJson()
@@ -85,7 +86,7 @@ class AuthController extends Controller
     // Update Profile Password
     public function updatePassword(UpdatePasswordRequest $request) {
 
-        $updated = $this->authService->updateProfilePassword($request->validated());
+        $updated = $this->userService->updateProfilePassword($request->validated());
 
         return $updated
             ? (new ApiResponse(200, '更新成功'))->toJson()
