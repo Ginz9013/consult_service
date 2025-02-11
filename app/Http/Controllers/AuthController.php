@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Service\AuthService;
+use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\UpdateNameRequest;
+use App\Http\Requests\Auth\UpdatePasswordRequest;
+use App\Service\AuthService;
 use App\Http\Resources\Auth\UserLoginResource;
 use App\Http\Response\ApiResponse;
 
@@ -21,23 +22,13 @@ class AuthController extends Controller
     }
 
     // Register
-    public function register(Request $request) {
-        
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed|min:6'
-        ]);
+    public function register(RegisterUserRequest $request) {
 
-        if($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        };
-
-        $user = $this->authService->registerUser($validator->validated());
+        $user = $this->authService->registerUser($request->validated());
 
         return (new ApiResponse(
             201,
-            'User successfully registered.',
+            '使用者註冊成功',
             ['user' => $user]
         ))->toJson();
     }
@@ -48,15 +39,12 @@ class AuthController extends Controller
         $token = $this->authService->login($request->validated());
 
         if(!$token) {
-            return response()->json([
-                'status' => 401,
-                'message' => 'Unauthorized',
-            ]);
+            return (new ApiResponse(401, 'Unauthorized'))->toJson();
         };
 
         return (new ApiResponse(
             200,
-            "Login Successfully!",
+            "登入成功",
             [
                 'access_token' => $token,
                 'token_type' => 'bearer',
@@ -68,15 +56,39 @@ class AuthController extends Controller
 
     // Profile
     public function profile() {
-        return response()->json(auth()->user());
+
+        $user = auth()->user();
+
+        return $user
+            ? (new ApiResponse(200, '取得使用者資訊', $user))->toJson()
+            : (new ApiResponse(400, "沒有該使用者"))->toJson();
     }
 
     // Logout
     public function logout() {
+
         auth()->logout();
-        return response()->json([
-            'status' => 200,
-            'message' => 'User logged out.'
-        ]);
+
+        return (new ApiResponse(200, '登出成功'))->toJson();
+    }
+
+    // Update Profile Name
+    public function updateName(UpdateNameRequest $request) {
+
+        $updated = $this->authService->updateProfileName($request->validated());
+
+        return $updated
+            ? (new ApiResponse(200, '更新成功'))->toJson()
+            : (new ApiResponse(400, '更新失敗'))->toJson();
+    }
+
+    // Update Profile Password
+    public function updatePassword(UpdatePasswordRequest $request) {
+
+        $updated = $this->authService->updateProfilePassword($request->validated());
+
+        return $updated
+            ? (new ApiResponse(200, '更新成功'))->toJson()
+            : (new ApiResponse(400, '更新失敗'))->toJson();
     }
 }

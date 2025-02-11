@@ -27,6 +27,10 @@ Route::group([
     $router->get('/profile', [AuthController::class, 'profile'])->name('auth.profile');
 
     $router->post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
+    $router->post('/profile/name', [AuthController::class, 'updateName'])->name('auth.name.update');
+
+    $router->post('/profile/password', [AuthController::class, 'updatePassword'])->name('auth.password.update');
 });
 
 // Record
