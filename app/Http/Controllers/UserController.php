@@ -7,6 +7,7 @@ use App\Http\Requests\User\RegisterUserRequest;
 use App\Http\Requests\User\LoginUserRequest;
 use App\Http\Requests\User\UpdateNameRequest;
 use App\Http\Requests\User\UpdatePasswordRequest;
+use App\Http\Requests\User\UpdateAvatarPictureRequest;
 use App\Service\UserService;
 use App\Http\Resources\Auth\UserLoginResource;
 use App\Http\Response\ApiResponse;
@@ -91,5 +92,15 @@ class UserController extends Controller
         return $updated
             ? (new ApiResponse(200, '更新成功'))->toJson()
             : (new ApiResponse(400, '更新失敗'))->toJson();
+    }
+
+    // Update Profile Avatar Picture
+    public function updateAvatarPicture(UpdateAvatarPictureRequest $request) {
+        
+        $url = $this->userService->updateProfileAvatar($request->file('avatar_pic'));
+
+        return $url
+            ? (new ApiResponse(200, '圖片更新成功'))->toJson()
+            : (new ApiResponse(400, '圖片更新失敗'))->toJson();
     }
 }

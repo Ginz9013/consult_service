@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Models\User;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
@@ -43,5 +45,25 @@ class UserService
         ]);
 
         return $updated ? true : false;
+    }
+
+    // Update Profile Avatar Picture
+    public function updateProfileAvatar(UploadedFile $file) {
+        $user = auth()->user();
+        $user_id = $user->id;
+        $user_name = $user->name;
+        $file_path = "user/{$user_id}_{$user_name}/avatar";
+
+        $extension = strtolower($file->getClientOriginalExtension());
+        $filename = "avatar.{$extension}";
+
+        $path = $file->storeAs($file_path, $filename, 's3');
+        $url = Storage::url($path);
+
+        $user->update([
+            'avatar_pic' => $url
+        ]);
+
+        return $url;
     }
 }

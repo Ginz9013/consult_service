@@ -30,6 +30,8 @@ Route::group([
     $router->post('/profile/name', [UserController::class, 'updateName'])->name('user.name.update');
 
     $router->post('/profile/password', [UserController::class, 'updatePassword'])->name('user.password.update');
+
+    $router->post('/profile/avatar_pic', [UserController::class, 'updateAvatarPicture'])->name('user.avatar_pic.update');
 });
 
 // Record
