@@ -9,6 +9,7 @@ use App\Http\Requests\Records\CreateDietRequest;
 use App\Http\Requests\Records\UpdateDietRequest;
 use App\Http\Resources\Records\DailySearchCellection;
 use App\Service\RecordService;
+use App\Http\Response\ApiResponse;
 
 class RecordController extends Controller
 {
@@ -51,16 +52,16 @@ class RecordController extends Controller
         $result = $this->recordService->updateDaily($validatedData, $date);
 
         if(!$result) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Daily record not found',
-            ], 404);
+            return (new ApiResponse(
+                404,
+                '當日紀錄不存在'
+            ))->toJson();
         }
 
-        return response()->json([
-            'status' => 200,
-            'data' => $validatedData,
-        ]);
+        return (new ApiResponse(
+            200,
+            '更新成功!'
+        ))->toJson();
     }
 
     // Search Daily Record
