@@ -77,11 +77,11 @@ class RecordController extends Controller
     // Create Dietary Record
     public function createDiet(CreateDietRequest $request) {
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Create successfully!',
-            'data' => $this->recordService->createDiet($request)
-        ]);
+        return (new ApiResponse(
+            200,
+            '新增成功!',
+            $this->recordService->createDiet($request)
+        ))->toJson();
     }
 
     // Update Dietary Record

@@ -70,7 +70,9 @@ class RecordService
     $user_id = $user->id;
     $user_name = $user->name;
     $date = Carbon::createFromFormat('Y-m-d H:i', data_get($dietary_data, 'date_time'))->toDateString();
-    $file_path = 'user/' . $user_id . '_' . $user_name . '/' . $date;
+    $time = Carbon::createFromFormat('Y-m-d H:i', data_get($dietary_data, 'date_time'))->format('H:i');
+
+    $file_path = "user/{$user_id}_{$user_name}/{$date}/{$time}";
 
     $imageKeys = ['image1' => 'img_url_1', 'image2' => 'img_url_2', 'image3' => 'img_url_3'];
 
@@ -79,7 +81,10 @@ class RecordService
         if ($request->hasFile($key)) {
             $file = $request->file($key);
 
-            $path = $file->store($file_path , 's3');
+            $extension = strtolower($file->getClientOriginalExtension());
+            $filename = "{$key}.{$extension}";
+
+            $path = $file->storeAs($file_path, $filename, 's3');
 
             $url = Storage::url($path);
 
