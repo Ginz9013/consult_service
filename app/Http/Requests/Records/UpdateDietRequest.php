@@ -9,16 +9,18 @@ class UpdateDietRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'date_time' => 'bail|required|date_format:Y-m-d H:i',
+            'date' => 'bail|required|date_format:Y-m-d',
+            'time' => 'bail|required|date_format:H:s',
             'staple' => 'bail|nullable|numeric|min:0',
             'meat' => 'bail|nullable|numeric|min:0',
             'fruit' => 'bail|nullable|numeric|min:0',
             'vegetable' => 'bail|nullable|numeric|min:0',
             'fat' => 'bail|nullable|numeric|min:0',
             'description' => 'bail|nullable|string',
-            'image1' => 'nullable|image|max:1024',
-            'image2' => 'nullable|image|max:1024',
-            'image3' => 'nullable|image|max:1024',
+            're_upload' => 'bail|required|boolean',
+            'image1' => 'nullable|image|mimes:jpg,jpeg|max:512',
+            'image2' => 'nullable|image|mimes:jpg,jpeg|max:512',
+            'image3' => 'nullable|image|mimes:jpg,jpeg|max:512',
         ];
     }
 }

@@ -48,5 +48,5 @@ Route::group([
 
     $router->post('/diet', [RecordController::class, 'createDiet'])->name('diet.create');
 
-    $router->patch('/diet', [RecordController::class, 'updateDiet'])->name('diet.update');
+    $router->patch('/diet/{id}', [RecordController::class, 'updateDiet'])->name('diet.update');
 });

@@ -85,7 +85,8 @@ class RecordController extends Controller
     }
 
     // Update Dietary Record
-    public function updateDiet(UpdateDietRequest $request) {
-        return $this->recordService->updateDiet($request);
+    public function updateDiet(UpdateDietRequest $request, $id) {
+
+        return $this->recordService->updateDiet($request, $id);
     }
 }

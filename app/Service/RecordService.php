@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Log;
 
 class RecordService
 {
+
+  const IMAGE_KEYS = ['image1' => 'img_url_1', 'image2' => 'img_url_2', 'image3' => 'img_url_3'];
+
   public function createDaily(array $request) {
     // Create Daily
     $newDaily = new Daily($request);
@@ -74,18 +77,13 @@ class RecordService
 
     $file_path = "user/{$user_id}_{$user_name}/{$date}/{$time}";
 
-    $imageKeys = ['image1' => 'img_url_1', 'image2' => 'img_url_2', 'image3' => 'img_url_3'];
-
-    foreach ($imageKeys as $key => $url_name) {
+    foreach (self::IMAGE_KEYS as $key => $url_name) {
 
         if ($request->hasFile($key)) {
             $file = $request->file($key);
-
-            $extension = strtolower($file->getClientOriginalExtension());
-            $filename = "{$key}.{$extension}";
+            $filename = "{$key}.jpg";
 
             $path = $file->storeAs($file_path, $filename, 's3');
-
             $url = Storage::url($path);
 
             $dietary_data[$url_name] = $url;
@@ -106,21 +104,61 @@ class RecordService
     return $new_diet;
   }
 
-  public function updateDiet(UpdateDietRequest $request) {
-    $date = Carbon::createFromFormat('Y-m-d H:i', $request->date_time);
+  public function updateDiet(UpdateDietRequest $request, string $id) {
+    $date = data_get($request->validated(), 'date');
 
     // Get User
     $user = auth()->user();
 
-    // Get Exist Record
-    $dietaryRecord = $user->dailies()->where('date', $date->format('Y-m-d'))->first()
-      ?->dietaries()->where('time', $date->format('H:i'))->first();
+    // Get Exist Diet Record
+    $diet = Diet::whereHas('daily', function ($q) use ($user, $date) {
+        $q->where('date', $date)
+          ->where('user_id', $user->id);
+    })
+    ->firstWhere('id', $id);
 
-    if(is_null($dietaryRecord)) {
-      echo 'no';
+    if (is_null($diet)) {
       return false;
     }
 
-    return $dietaryRecord->toArray();
+    $upload_diet = $request->validated();
+    $exist_time = Carbon::createFromFormat('H:i:s', $diet->time)->format('H:i');
+    $update_time = data_get($upload_diet, 'time');
+    $is_same_time = $exist_time === $update_time;
+    if ($is_same_time) {
+      return 'true';
+    } else {
+      return 'false';
+    }
+    return $is_same_time;
+    // Update Image from S3
+    $is_re_upload = filter_var($request->re_upload, FILTER_VALIDATE_BOOLEAN);
+
+    if ($is_re_upload) {
+        $time = Carbon::createFromFormat('H:i:s', $diet->time)->format('H:i');
+        $file_path = "user/{$user_id}_{$user_name}/{$date}/{$time}";
+
+        foreach (self::IMAGE_KEYS as $key => $url_name) {
+
+            if ($request->hasFile($key)) {
+                $file = $request->file($key);
+                $filename = "{$key}.jpg";
+
+                $path = $file->storeAs($file_path, $filename, 's3');
+                $url = Storage::url($path);
+
+                $dietary_data[$url_name] = $url;
+            } else {
+
+            }
+        }
+    } else {
+      return 'false';
+    }
+    
+
+
+
+    return $diet->toArray();
   }
 }
